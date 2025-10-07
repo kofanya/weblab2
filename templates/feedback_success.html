@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Сообщение отправлено{% endblock %}
+
+{% block content %}
+<h1>Спасибо за ваше сообщение!</h1>
+ <div class="">
+        <div class="welcome-title">
+            <h5>Данные вашего сообщения:</h5>
+        </div>
+        <div>
+            <p><strong>Имя:</strong> {{ name }}</p>
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>Сообщение:</strong></p>
+            <div>
+                {{ message }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

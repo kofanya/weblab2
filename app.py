@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
-
 from datetime import datetime
+from forms import FeedbackForm
+
 
 def russian_date(value):
     if isinstance(value, (datetime, date)):
@@ -14,6 +15,7 @@ def russian_date(value):
     return value
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'my-secret-key-123456'
 app.jinja_env.filters['russian_date'] = russian_date
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///newsweblab2.db'
@@ -42,9 +44,17 @@ def about():
 def contact():
     return render_template('contact.html')
 
-@app.route("/feedback")
+@app.route("/feedback", methods=['POST', 'GET'])
 def feedback():
-    return render_template('feedback.html')
+    form = FeedbackForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        message = form.message.data
+        return render_template('feedback_success.html', name=name, email=email, message=message)
+    return render_template('feedback.html', form=form)
+    # if request.method == 'POST':    
+    # return render_template('feedback.html')
 
 @app.route("/create", methods=['POST', 'GET'])
 def create():

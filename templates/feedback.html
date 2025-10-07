@@ -6,4 +6,13 @@
 
 {% block content %} 
 <h1 class="welcome-title">Обратная связь </h1>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <label>Имя</label><input type="text" name="name" placeholder="Введите имя" class="form-control"><br> 
+    <label>Почта</label><input type="email" name="email" placeholder="Введите email" class="form-control"><br>
+    <label>Сообщение</label><input type="text" name="message" placeholder="Введите сообщение" class="form-control"><br> 
+
+    <button class="button" type="submit">Отправить</button> 
+
+</form>
 {% endblock %}
