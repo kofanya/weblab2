@@ -53,8 +53,6 @@ def feedback():
         message = form.message.data
         return render_template('feedback_success.html', name=name, email=email, message=message)
     return render_template('feedback.html', form=form)
-    # if request.method == 'POST':    
-    # return render_template('feedback.html')
 
 @app.route("/create", methods=['POST', 'GET'])
 def create():
@@ -62,7 +60,6 @@ def create():
         try:
             title = request.form['title']
             date_str = request.form['date']
-            # Дата приходит в формате 'YYYY-MM-DD'
             date = datetime.strptime(date_str, '%Y-%m-%d').date()
         except:
             return "Неверный формат даты"
