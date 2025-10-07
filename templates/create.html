@@ -1,0 +1,16 @@
+{% extends 'base.html' %} 
+
+
+{% block title %} 
+ Создание новой статьи 
+{% endblock %}
+
+{% block content %} 
+<h1 class="welcome-title"> Создание новой статьи </h1>
+<form method="post">
+    <input type="text" name="title" placeholder="Введите заголовок статьи" class="form-control"><br>
+    <input type="date" name="date" placeholder="Введите дату создания статьи" class="form-control"><br>
+
+    <button class="button" type="submit">Создать</button>
+</form>
+{% endblock %}
