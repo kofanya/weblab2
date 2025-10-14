@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <h1>{{ article.title }}</h1>
+    
+    <div class="meta" style="margin: 15px 0; color: #666; font-size: 0.95em;">
+        <span>Автор: {{ article.author.name }}</span> <br>
+        <span>Категория: {{ article.category }}</span> <br>
+        <span>Дата: {{ article.created_date | russian_date }}</span>
+    </div>
+
+    <div class="article-text" style="line-height: 1.7; margin-top: 20px;">
+        {{ article.text }}
+    </div>
+
+    <a href="{{ url_for('articles') }}" style="display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none;">
+        ← Вернуться к списку статей
+    </a>
+    
+    {% if current_user.is_authenticated and current_user == article.author %}
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('edit_article', id=article.id) }}" class="btn btn-warning">Редактировать</a>
+        
+        <form method="post" action="{{ url_for('delete_article', id=article.id) }}" 
+              style="display: inline;" 
+              onsubmit="return confirm('Вы уверены, что хотите удалить статью?');">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </div>
+{% endif %}
+</div>
+{% endblock %}

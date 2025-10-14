@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Упс...{% endblock %}
+
+{% block content %}
+<h3>Опубликовать статью могут только зарегистрированные пользователи</h3>
+ <div class="">
+        <div class="welcome-title">
+            <h5>Зарегистрируйтесь, чтобы продолжить:</h5>
+        </div>
+        <div>
+             <a href="{{url_for('register')}}" class="button" type="submit">Зарегистрироваться</a>
+        </div>
+    </div>
+
+{% endblock %}

@@ -2,11 +2,11 @@
 
 
 {% block title %} 
- Создание новой статьи 
+Редактирование статьи 
 {% endblock %}
 
 {% block content %} 
-<h1 class="welcome-title"> Создание новой статьи </h1>
+<h1 class="welcome-title"> Редактирование статьи </h1>
 <form method="post">
     <input type="text" name="title" placeholder="Введите заголовок статьи" class="form-control" required><br>
     <textarea type="text" name="text" placeholder="Введите текст статьи" class="form-control textarea-scrollable" row="10" required></textarea><br>
@@ -18,6 +18,6 @@
         {% endfor %}
     </select><br>
 
-    <button class="button" type="submit">Создать</button>
+    <button class="button" type="submit">Сохранить изменения</button>
 </form>
 {% endblock %}

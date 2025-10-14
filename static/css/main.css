@@ -45,12 +45,12 @@ footer{
             --border-radius: 16px;
         }
 
-        /* * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        } */
+        }
 
         body {
             display: flex;
@@ -111,7 +111,7 @@ footer{
             cursor: pointer;
             transform-style: preserve-3d;
             perspective: 1000px;
-            min-width: 500px;
+            min-width: 800px;
         }
 
         .blog-card:nth-child(1) .card-header {
@@ -142,10 +142,10 @@ footer{
             z-index: 2;
         }
 
-        /* .blog-card:hover .card-header {
+        .blog-card:hover .card-header {
             transform: rotateX(10deg) translateY(-80px);
             opacity: 0.95;
-        } */
+        }
 
         .card-title {
             font-size: 1.6rem;
@@ -182,7 +182,7 @@ footer{
             height: 14px;
         }
 
-        /* .card-content {
+        .card-content {
             background: white;
             padding: 25px;
             position: absolute;
@@ -196,13 +196,13 @@ footer{
             transform: translateY(100%);
             transition: var(--transition);
             z-index: 1;
-        } */
+        } 
 
-        /* .blog-card:hover .card-content {
+        .blog-card:hover .card-content {
             transform: translateY(0);
-        } */
+        }
 
-        /* .description {
+        .description {
             font-size: 0.95rem;
             line-height: 1.6;
             color: #444;
@@ -323,9 +323,9 @@ footer{
 
         .blog-card:nth-child(3) .pattern {
             background-image: radial-gradient(circle, #9733EE 1px, transparent 1px);
-        } */
+        }
 
-        /* Responsive styles */
+        /* Responsive styles  */
         @media (max-width: 700px) {
             .container {
                 padding: 10px;
@@ -339,10 +339,10 @@ footer{
                 font-size: 1.4rem;
             }
 
-            /* .description {
+            .description {
                 font-size: 0.9rem;
                 max-height: 65px;
-            } */
+            }
         }
 
         @media (max-width: 500px) {
@@ -361,15 +361,15 @@ footer{
                 padding: 20px;
             }
 
-            /* .card-content {
+            .card-content {
                 padding: 20px;
-            } */
+            }
 
             .card-title {
                 font-size: 1.2rem;
             }
 
-            /* .description {
+            .description {
                 font-size: 0.85rem;
                 line-height: 1.5;
                 max-height: 60px;
@@ -378,11 +378,11 @@ footer{
             .read-more {
                 padding: 6px 12px;
                 font-size: 0.8rem;
-            } */
+            }
         }
 
         /* Elegant animations */
-        /* @keyframes pulse {
+        @keyframes pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.4);
             }
@@ -396,4 +396,4 @@ footer{
 
         .pulse {
             animation: pulse 1.5s infinite;
-        } */
+        }
