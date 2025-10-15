@@ -120,10 +120,25 @@ def feedback():
         return render_template('feedback_success.html', name=name, email=email, message=message)
     return render_template('feedback.html', form=form)
 
-@app.route("/news/<int:id>")
+@app.route("/news/<int:id>", methods=['GET', 'POST'])
 def article_content(id):
-    article = Article.query.get_or_404(id)
-    return render_template('article_content.html', article=article)
+    article = Article.query.get(id)
+    if request.method == 'POST':
+        author_name = request.form.get('author_name', '').strip()
+        text = request.form.get('text', '').strip()
+
+        comment = Comment(
+            text=text,
+            author_name=author_name,
+            article_id=article.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('article_content', id=id))
+
+    # Получаем комментарии к статье (с сортировкой по дате)
+    comments = Comment.query.filter_by(article_id=id).order_by(Comment.created_date.desc()).all()
+    return render_template('article_content.html', article=article, comments=comments)
 
     
 @app.route("/create-articles", methods=['GET', 'POST'])
@@ -162,9 +177,6 @@ def create():
 def edit_article(id):
     article = Article.query.get(id)
 
-    if article.author != current_user:  
-        return "вы не автор"
-
     if request.method == 'POST':
         title = request.form.get('title', '').strip()
         text = request.form.get('text', '').strip()
@@ -187,10 +199,7 @@ def edit_article(id):
 @app.route("/delete-article/<int:id>", methods=['POST'])
 @login_required
 def delete_article(id):
-    article = Article.query.get_or_404(id)
-
-    if article.author != current_user:
-        return "Только автор может удалять статьи"
+    article = Article.query.get(id)
 
     db.session.delete(article)
     db.session.commit()

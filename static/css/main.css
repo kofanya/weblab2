@@ -35,6 +35,14 @@ footer{
    flex: 1 1 auto; 
 }
 
+.button{
+    padding: 8px 16px; 
+    background: #007bff; 
+    color: white; 
+    border: none; 
+    cursor: pointer;
+}
+
 /* POSTS */
        :root {
             --gradient-1: linear-gradient(135deg, #FF3366, #FF9933);
