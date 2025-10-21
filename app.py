@@ -77,7 +77,7 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         else:
-            return "Неверный email или пароль", 400
+            return render_template('not_user.html')
 
     return render_template('login.html')
 
@@ -167,9 +167,9 @@ def create():
             db.session.add(article)
             db.session.commit()
             return redirect('/')
-        except Exception as e:
+        except:
             db.session.rollback()
-            return f"Ошибка при создании статьи: {str(e)}", 500
+            return "При создании статьи произошла ошибка"
 
     else:
         return render_template('create.html', categories=CATEGORIES)
@@ -218,16 +218,14 @@ def articles_category(category):
     if category not in CATEGORIES:
         return "Категория не найдена"
     articles = Article.query.filter_by(category=category).all()
-    today = date.today()
-    category_name = CATEGORIES[category]
+    today_utc = datetime.now(timezone.utc).date()
+    for article in articles:
+        article.is_new = article.created_date.date() == today_utc if article.created_date else False
 
-    return render_template(
-        'articles.html', 
-        articles=articles, 
-        today=today, 
-        category_name=category_name,
-        current_category=category
-    )
+    category_name = CATEGORIES[category]
+    
+    return render_template('articles.html', articles=articles, category_name=category_name, CATEGORIES=CATEGORIES)
+
 
 
 if __name__ == '__main__':
