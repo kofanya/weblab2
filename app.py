@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, date
+from datetime import datetime, date, timezone
 from forms import FeedbackForm
 from models import db, User, Article, Comment
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -93,14 +93,19 @@ def logout():
 @app.route("/index")
 def index():
     articles = Article.query.all()
-    today = date.today()
-    return render_template('index.html', articles = articles, today = today)
+    today_utc = datetime.now(timezone.utc).date()
+
+    for article in articles:
+        article.is_new = article.created_date.date() == today_utc
+    return render_template('index.html', articles = articles, CATEGORIES=CATEGORIES)
 
 @app.route("/articles")
 def articles():
     articles = Article.query.all()
-    today = date.today()
-    return render_template('articles.html', articles = articles, today = today)
+    today_utc = datetime.now(timezone.utc).date()
+    for article in articles:
+        article.is_new = article.created_date.date() == today_utc
+    return render_template('articles.html', articles = articles, CATEGORIES=CATEGORIES)
 
 @app.route("/about")
 def about():
@@ -124,41 +129,38 @@ def feedback():
 def article_content(id):
     article = Article.query.get(id)
     if request.method == 'POST':
-        author_name = request.form.get('author_name', '').strip()
+        if not current_user.is_authenticated:
+            return "Только авторизированные пользователи могут оставлять комментарии"
+        
         text = request.form.get('text', '').strip()
 
         comment = Comment(
             text=text,
-            author_name=author_name,
+            author_name=current_user.name,
             article_id=article.id
         )
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('article_content', id=id))
 
-    # Получаем комментарии к статье (с сортировкой по дате)
     comments = Comment.query.filter_by(article_id=id).order_by(Comment.created_date.desc()).all()
-    return render_template('article_content.html', article=article, comments=comments)
+    return render_template('article_content.html', article=article, comments=comments, CATEGORIES=CATEGORIES)
 
     
 @app.route("/create-articles", methods=['GET', 'POST'])
+@login_required
 def create():
     if request.method == 'POST':
         title = request.form.get('title')
         text = request.form.get('text')
         category = request.form.get('category', 'general')
-        author_name = request.form.get('author_name', '').strip()
-
-        user = User.query.filter(User.name.ilike(author_name)).first()
-        if not user:
-            return render_template('not_user.html')
 
         # Создание статьи
         article = Article(
             title=title,
             text=text,
             category=category,
-            user_id=user.id  
+            user_id=current_user.id  
         )
 
         try:
@@ -176,6 +178,9 @@ def create():
 @login_required
 def edit_article(id):
     article = Article.query.get(id)
+
+    if article.author != current_user:  
+        return "вы не автор"
 
     if request.method == 'POST':
         title = request.form.get('title', '').strip()
@@ -201,9 +206,29 @@ def edit_article(id):
 def delete_article(id):
     article = Article.query.get(id)
 
+    if article.author != current_user:  
+        return "вы не автор"
+
     db.session.delete(article)
     db.session.commit()
     return redirect(url_for('index'))
+
+@app.route("/articles/<category>")
+def articles_category(category):
+    if category not in CATEGORIES:
+        return "Категория не найдена"
+    articles = Article.query.filter_by(category=category).all()
+    today = date.today()
+    category_name = CATEGORIES[category]
+
+    return render_template(
+        'articles.html', 
+        articles=articles, 
+        today=today, 
+        category_name=category_name,
+        current_category=category
+    )
+
 
 if __name__ == '__main__':
     with app.app_context():

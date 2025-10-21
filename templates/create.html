@@ -10,7 +10,6 @@
 <form method="post">
     <input type="text" name="title" placeholder="Введите заголовок статьи" class="form-control" required><br>
     <textarea type="text" name="text" placeholder="Введите текст статьи" class="form-control textarea-scrollable" row="10" required></textarea><br>
-    <input type="text" name="author_name" placeholder="Введите автора статьи" class="form-control" required><br>
     <label>Выберите категорию</label>
     <select name="category" class="form-control" required>
         {% for key, name in categories.items() %}

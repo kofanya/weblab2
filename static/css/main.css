@@ -122,15 +122,15 @@ footer{
             min-width: 800px;
         }
 
-        .blog-card:nth-child(1) .card-header {
+        .blog-card:nth-child(3n + 1) .card-header {
             background: var(--gradient-1);
         }
 
-        .blog-card:nth-child(2) .card-header {
+        .blog-card:nth-child(3n + 2) .card-header {
             background: var(--gradient-2);
         }
 
-        .blog-card:nth-child(3) .card-header {
+        .blog-card:nth-child(3n) .card-header {
             background: var(--gradient-3);
         }
 
@@ -213,7 +213,7 @@ footer{
         .description {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #444;
+            color: #000000;
             margin-bottom: 15px;
             overflow-y: auto;
             max-height: 85px;
@@ -321,15 +321,15 @@ footer{
             background-size: 20px 20px;
         }
 
-        .blog-card:nth-child(1) .pattern {
+        .blog-card:nth-child(3n + 1) .pattern {
             background-image: radial-gradient(circle, #FF3366 1px, transparent 1px);
         }
 
-        .blog-card:nth-child(2) .pattern {
+        .blog-card:nth-child(3n + 2) .pattern {
             background-image: radial-gradient(circle, #36D1DC 1px, transparent 1px);
         }
 
-        .blog-card:nth-child(3) .pattern {
+        .blog-card:nth-child(3n) .pattern {
             background-image: radial-gradient(circle, #9733EE 1px, transparent 1px);
         }
 
